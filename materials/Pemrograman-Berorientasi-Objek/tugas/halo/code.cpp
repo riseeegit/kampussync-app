@@ -1,0 +1,1 @@
+cout>>"JAWA ADALAH KOENTJI";
