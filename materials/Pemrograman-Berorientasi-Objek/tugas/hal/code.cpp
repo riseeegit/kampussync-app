@@ -1,145 +1,140 @@
 #include <iostream>
+#define max 10
 using namespace std;
 
-//Single Linked List Non Circular
-
-struct Node2 {
-    int data;
-    Node2* next;
+struct stack{
+    int top;
+    int data[max];
 };
-
-Node2* head2 = NULL;
-
-void init2() {
-    head2 = NULL;
+stack tumpuk;
+void inisialisasi(){
+    tumpuk.top=-1;
 }
-
-int isEmpty2() {
-    if (head2 == NULL) return 1;
-    return 0;
+int isfull(){
+    if(tumpuk.top==max-1)
+        return 1;
+    else
+        return 0;  
+}int isempty(){
+    if(tumpuk.top==-1)
+        return 1;
+    else
+        return 0;
 }
-
-void insertDepan2(int databaru) {
-    Node2* baru = new Node2;
-    baru->data = databaru;
-    baru->next = head2;
-    head2 = baru;
-    cout << "Data masuk \n";
+void push(int a){
+    if(isfull()){
+        cout<<"Stack Penuh!\n";
+    }else{
+        tumpuk.top++;
+        tumpuk.data[tumpuk.top]=a;
+        cout<<a;
+    }
 }
-
-void insertBelakang2(int databaru) {
-    Node2* baru = new Node2;
-    baru->data = databaru;
-    baru->next = NULL;
-
-    if (isEmpty2()) {
-        head2 = baru;
-    } else {
-        Node2* bantu = head2;
-        while (bantu->next != NULL) {
-            bantu = bantu->next;
+int pop(){
+    if(isempty()){
+        cout<<"Stack Kosong!\n";
+        return -1;
+    }else{
+        return tumpuk.top--;
+    }
+}
+void display(){
+    if(isempty()){
+        cout<<"Stack Kosong!\n";
+    }else{
+        for(int i=tumpuk.top;i>=0;i--){
+            cout<<tumpuk.data[i]<<endl;
         }
-        bantu->next = baru;
     }
-    cout << "Data masuk \n";
+}
+void cariindeks(){
+    int indeks;
+    char n;
+    cout<<"Ingin mencari data dengan indeks? (y/n): ";
+    cin>>n;
+    if(n=='y'||n=='Y'){
+        cout<<"\nMasukkan Indeks= ";
+        cin>>indeks;
+        if(indeks-1>tumpuk.top){
+            cout<<"Indeks Tidak Valid!";
+        }else{
+        cout<<tumpuk.data[indeks-1];}
+        
+    }else if(n=='n'||n=='N'){
+        cout<<"\nAnda tidak mencari data dengan indeks\n";
+    }else{
+        cout<<"Input tidak valid";
+    }
+}
+void cari(){
+    int datacari,inf=0;
+    char n;
+    cout<<"\nIngin mencari data? (y/n): ";
+    cin>>n;
+    if(n=='y'||n=='Y'){
+        cout<<"\nMasukkan Data yang ingin dicari= ";
+        cin>>datacari;
+        for(int i=tumpuk.top;i>=0;i--){
+            if(tumpuk.data[i]==datacari){
+                cout<<"Data ada di dalam stack ";
+                cout<<"dan berada di indeks "<<i+1<<endl;
+                inf=1;
+            }
+        }if(inf==0){cout<<"Data yang dicari tidak ada di dalam stack\n";}
+        
+    }else if(n=='n'||n=='N'){
+        cout<<"\nAnda tidak mencari data\n";
+    }else{
+        cout<<"Input tidak valid\n";
+    }
 }
 
-void tampil2() {
-    if (isEmpty2()) {
-        cout << "List kosong \n";
-        return;
-    }
-
-    Node2* bantu = head2;
-    while (bantu != NULL) {
-        cout << bantu->data << " ";
-        bantu = bantu->next;
-    }
-    cout << endl;
+float rata(){
+    float avg,a;
+    for(int i=tumpuk.top;i>=0;i--){
+        a+=tumpuk.data[i];
+    }avg=a/tumpuk.top+1;
+    return avg;
 }
-
-void hapusDepan2() {
-    if (isEmpty2()) {
-        cout << "List kosong \n";
-        return;
-    }
-
-    Node2* hapus = head2;
-    head2 = head2->next;
-    cout << "Data " << hapus->data << " terhapus \n";
-    delete hapus;
+int total(){
+    int all=0;
+    for(int i=0;i<tumpuk.top+1;i++){
+        all=all+tumpuk.data[i];
+    }return all;
 }
-
-void hapusBelakang2() {
-    if (isEmpty2()) {
-        cout << "List kosong \n";
-        return;
-    }
-
-    if (head2->next == NULL) {
-        cout << "Data " << head2->data << " terhapus \n";
-        delete head2;
-        head2 = NULL;
-    } else {
-        Node2* bantu = head2;
-        while (bantu->next->next != NULL) {
-            bantu = bantu->next;
+int big(){
+    int big=tumpuk.data[0];
+    for(int i=tumpuk.top;i>=0;i--){
+        if(tumpuk.data[i]>big){
+            big=tumpuk.data[i];
         }
-        Node2* hapus = bantu->next;
-        bantu->next = NULL;
-        cout << "Data " << hapus->data << " terhapus \n";
-        delete hapus;
     }
+    return big;
 }
-
-void clear2() {
-    Node2* bantu;
-    while (head2 != NULL) {
-        bantu = head2;
-        head2 = head2->next;
-        delete bantu;
-    }
-}
-
-int main() {
-    int pilihan, data;
-    do {
-        cout << "MENU SLLNC\n";
-        cout << "1. Insert Depan\n";
-        cout << "2. Insert Belakang\n";
-        cout << "3. Hapus Depan\n";
-        cout << "4. Hapus Belakang\n";
-        cout << "5. Tampil\n";
-        cout << "6. Clear\n";
-        cout << "0. Keluar\n";
-        cout << "Pilih menu: ";
-        cin >> pilihan;
-
-        switch (pilihan) {
-            case 1:
-                cout << "Masukkan data: ";
-                cin >> data;
-                insertDepan2(data);
-                break;
-            case 2:
-                cout << "Masukkan data: ";
-                cin >> data;
-                insertBelakang2(data);
-                break;
-            case 3:
-                hapusDepan2();
-                break;
-            case 4:
-                hapusBelakang2();
-                break;
-            case 5:
-                tampil2();
-                break;
-            case 6:
-                clear2();
-                cout << "List dikosongkan\n";
-                break;
+int small(){
+    int small=tumpuk.data[0];
+    for(int i=tumpuk.top;i>=0;i--){
+        if(tumpuk.data[i]<small){
+            small=tumpuk.data[i];
         }
-    } while (pilihan != 0);
-    return 0;
+    }
+    return small;
+}
+int main(){
+    inisialisasi();
+    for(int i=0;i<max;i++){
+        cout<<"Data yang dimasukkan ";
+        push((i+1)*10);
+        cout<<endl;
+    }
+    cariindeks();
+    cari();
+    display();
+    cout<<"\nAngka yang di pop = "<<tumpuk.data[tumpuk.top];
+    pop();
+    cout<<"\nRata-Rata = "<<rata()<<endl;
+    cout<<"\nTotal = "<<total()<<endl;
+    cout<<"\nTerkecil = "<<small()<<endl;
+    cout<<"\nTerbesar = "<<big()<<endl<<endl;
+    display();
 }
