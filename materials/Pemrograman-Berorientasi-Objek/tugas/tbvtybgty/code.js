@@ -1,1 +1,0 @@
-https://raw.githubusercontent.com/riseeegit/kampussync-app/main/materials/Pemrograman-Berorientasi-Objek/tugas/tbvtybgty/sllnc.cpp
